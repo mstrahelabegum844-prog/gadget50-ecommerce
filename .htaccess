@@ -1,0 +1,15 @@
+# Gadget50 root Apache configuration
+Options -Indexes
+
+# Block sensitive files
+<FilesMatch "^(\.env|composer\.(json|lock)|.*\.(sql|log|ini))$">
+    Require all denied
+</FilesMatch>
+
+# Force HTTPS when supported by hosting
+RewriteEngine On
+RewriteCond %{HTTPS} !=on
+RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+# Prevent access to hidden files
+RewriteRule (^|/)\.(?!well-known/) - [F,L]
