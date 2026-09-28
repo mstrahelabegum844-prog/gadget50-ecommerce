@@ -1,0 +1,18 @@
+# Admin Apache configuration
+Options -Indexes
+DirectoryIndex index.php
+
+<FilesMatch "(^|/)(config|\.env|.*\.sql|.*\.log)$">
+    Require all denied
+</FilesMatch>
+
+<IfModule mod_headers.c>
+    Header always set X-Robots-Tag "noindex, nofollow, noarchive"
+    Header always set X-Content-Type-Options "nosniff"
+    Header always set X-Frame-Options "DENY"
+    Header always set Referrer-Policy "no-referrer"
+</IfModule>
+
+# Do not expose directory listings or internal PHP files
+RewriteEngine On
+RewriteRule ^(?:config|includes|private)(?:/|$) - [F,L]
